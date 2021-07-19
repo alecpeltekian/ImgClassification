@@ -21,7 +21,7 @@ class ExampleDataset(BaseDataset):
     CLASSES = ('NEG', 'POS')
 
     # get path to the csv file -- updated after removing Grace's corrections, incorrect RECIST, and to-be-reannotated RECIST images
-    ffn_csvSavePath = '/content/mmclassification/data/latin.csv'
+    ffn_csvSavePath = '/home/alec/Desktop/ImgClassification/data/latin.csv'
 
     # read the csv file  
     df = pd.read_csv(ffn_csvSavePath)
