@@ -4,7 +4,7 @@
 
 # dataset settings
 dataset_type = 'ExampleDataset'
-data_root = '/content/mmclassification/data/' 
+data_root = '/home/alec/Desktop/ImgClassification/data'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -52,7 +52,7 @@ data = dict(
 evaluation = dict(interval=1, metric='mse')
 
 # Set up working dir to save files and logs.
-work_dir = '/content/mmclassification/working_dir'
+work_dir = '/home/alec/Desktop/ImgClassification/working_dir'
 
 
 ### ===============================================================
