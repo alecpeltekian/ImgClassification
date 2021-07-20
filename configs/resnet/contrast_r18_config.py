@@ -4,7 +4,7 @@
 
 # dataset settings
 dataset_type = 'ContrastDataset'
-data_root = '/mnt/cadlabnas/datasets/RenalDonors' 
+data_root = '/mnt/cadlabnas/datasets' 
 
 train_pipeline = [
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
