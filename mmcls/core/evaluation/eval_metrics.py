@@ -245,13 +245,3 @@ def support(pred, target, average_mode='macro'):
         else:
             raise ValueError(f'Unsupport type of averaging {average_mode}.')
     return res
-
-def mse(pred, target):
-    if isinstance(pred, np.ndarray):
-        pred = torch.from_numpy(pred)
-    if isinstance(target, np.ndarray):
-        target = torch.from_numpy(target)
-
-    v = torch.mean((pred - target.view_as(pred)) ** 2)
-
-    return v.item()
