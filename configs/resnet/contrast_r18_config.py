@@ -14,7 +14,7 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='ImageToTensor', keys=['img']),
-    dict(type='Collect', keys=['img'']),
+    dict(type='Collect', keys=['img']),
 ]
 
 data = dict(
