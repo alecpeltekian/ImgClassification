@@ -54,8 +54,8 @@ class ContrastDataset(BaseDataset):
         data_infos = []
 
         for row in df_split.iterrows():
-            pc_img = row[1][self.CLASSES[0]]
-            syn_img = row[1][self.CLASSES[1]]
+            pc_img = 'PC/' + row[1][self.CLASSES[0]]
+            syn_img = 'SYNTHCON/' + row[1][self.CLASSES[1]]
 
             # create Custom Middle dataset format
             for idx, img in enumerate([pc_img, syn_img]):
