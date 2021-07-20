@@ -44,7 +44,7 @@ data = dict(
 evaluation = dict(interval=1, metric='accuracy')
 
 # Set up working dir to save files and logs.
-work_dir = '/content/ImgClassification/working_dir'
+work_dir = '/home/alec/Desktop/ImgClassification/working_dir'
 
 
 ### ===============================================================
