@@ -72,7 +72,7 @@ class ContrastDataset(BaseDataset):
               img_width, img_height, img_depth = norm_img.shape
               for k in range(img_depth):
                 img_info = {}
-                img_info['gt_label'] = np.array([idx], dtype=np.int64)
+                img_info['gt_label'] = np.array(idx, dtype=np.int64)
                 slice_img = norm_img[:, :, k]
                 img_info['img'] = np.repeat(np.expand_dims(slice_img, axis=-1), 3, axis=-1)
                 data_infos.append(img_info)
