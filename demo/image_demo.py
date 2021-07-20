@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from mmcls.apis import inference_model, init_model, show_result_pyplot
+from mmcls.apis import inference_model, init_model, show_result_pyplot, inference_nii_model, show_result_nii_pyplot
 
 
 def main():
@@ -15,9 +15,10 @@ def main():
     # build the model from a config file and a checkpoint file
     model = init_model(args.config, args.checkpoint, device=args.device)
     # test a single image
-    result = inference_model(model, args.img)
-    # show the results
-    show_result_pyplot(model, args.img, result)
+    result, img = inference_nii_model(model, args.img)
+    print(result)
+
+    show_result_nii_pyplot(img, result)
 
 
 if __name__ == '__main__':
