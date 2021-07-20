@@ -21,7 +21,7 @@ class ContrastDataset(BaseDataset):
     CLASSES = ('PC', 'SYNTHCON')
 
     # get path to the csv file
-    ffn_csvSavePath = '/content/mmclassification/data/renalData.csv'
+    ffn_csvSavePath = '/content/ImgClassification/data/renalData.csv'
 
     # read the csv file  
     df = pd.read_csv(ffn_csvSavePath)
