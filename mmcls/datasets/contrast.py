@@ -8,6 +8,7 @@ import copy
 import os
 import os.path as osp
 import nibabel as nib
+from scipy import ndimage
 
 from .base_dataset import BaseDataset
 from .builder import DATASETS
