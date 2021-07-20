@@ -32,7 +32,7 @@ data = dict(
     ),
     val=dict(
         type=dataset_type,
-        ann_file='test.txt',
+        ann_file='val.txt',
         data_prefix= data_root + 'RenalDonors/',
         pipeline=test_pipeline),
     test=dict(
