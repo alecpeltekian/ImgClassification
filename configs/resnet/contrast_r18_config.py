@@ -4,7 +4,7 @@
 
 # dataset settings
 dataset_type = 'ContrastDataset'
-data_root = '/content/mmclassification/data/' 
+data_root = '/content/ImgClassification/data/' 
 
 train_pipeline = [
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
@@ -44,7 +44,7 @@ data = dict(
 evaluation = dict(interval=1, metric='accuracy')
 
 # Set up working dir to save files and logs.
-work_dir = '/content/mmclassification/working_dir'
+work_dir = '/content/ImgClassification/working_dir'
 
 
 ### ===============================================================
