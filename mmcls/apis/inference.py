@@ -9,6 +9,7 @@ from mmcv.runner import load_checkpoint
 
 from mmcls.datasets.pipelines import Compose
 from mmcls.models import build_classifier
+from ..datasets.contrast import process_scan
 
 
 def init_model(config, checkpoint=None, device='cuda:0', options=None):
@@ -87,6 +88,60 @@ def inference_model(model, img):
         result = {'pred_label': pred_label, 'pred_score': float(pred_score)}
     result['pred_class'] = model.CLASSES[result['pred_label']]
     return result
+
+
+def inference_nii_model(model, img, show_result=True):
+    """Inference image(s) with the classifier.
+
+    Args:
+        model (nn.Module): The loaded classifier.
+        img (str/ndarray): The image filename or loaded image.
+
+    Returns:
+        result (dict): The classification results that contains
+            `class_name`, `pred_label` and `pred_score`.
+    """
+    cfg = model.cfg
+    device = next(model.parameters()).device  # model device
+    # build the data pipeline
+    if isinstance(img, str):
+        img = process_scan(img)
+    
+    img_depth = img.shape[-1]
+    results = {k:0 for k in model.CLASSES}
+    for k in range(img_depth):
+      slice_img = img[:, :, k]
+      slice_img = np.repeat(np.expand_dims(slice_img, axis=-1), 3, axis=-1)
+      data = dict(img=slice_img)
+      test_pipeline = Compose(cfg.data.test.pipeline)
+      data = test_pipeline(data)
+      data = collate([data], samples_per_gpu=1)
+      if next(model.parameters()).is_cuda:
+          # scatter to specified GPU
+          data = scatter(data, [device])[0]
+
+      # forward the model
+      with torch.no_grad():
+          scores = model(return_loss=False, **data)
+          pred_score = np.max(scores, axis=1)[0]
+          pred_label = np.argmax(scores, axis=1)[0]
+
+      results[model.CLASSES[pred_label]] += 1
+    
+    return max(results, key=results.get), img
+
+def show_result_nii_pyplot(img, result, fig_size=(15, 10)):
+    """Visualize the classification results on the image.
+
+    Args:
+        model (nn.Module): The loaded classifier.
+        img (str or np.ndarray): Image filename or loaded image.
+        result (list): The classification result.
+        fig_size (tuple): Figure size of the pyplot figure.
+    """
+    plt.figure(figsize=fig_size)
+    plt.imshow(np.squeeze(img[:, :, 0]), cmap="gray")
+    plt.show()
 
 
 def show_result_pyplot(model, img, result, fig_size=(15, 10)):
