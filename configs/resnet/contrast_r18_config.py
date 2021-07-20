@@ -99,7 +99,7 @@ runner = dict(type='EpochBasedRunner', max_epochs=15)
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
-    interval=1, #50,
+    interval=50, #50,
     hooks=[
         dict(type='TextLoggerHook'),
         # dict(type='TensorboardLoggerHook')
@@ -109,8 +109,6 @@ dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
 resume_from = None
-
-#log_config.interval = 1
 
 
 # run train iter 1 time (overall 1 time which includes: div num_images by batch_size, and mult by dataset_repeat_times)
