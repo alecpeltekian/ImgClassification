@@ -67,7 +67,6 @@ class ContrastDataset(BaseDataset):
               else:
                 ffp_image = self.data_prefix + '/' + img
 
-              # populate
               norm_img = process_scan(ffp_image)
               img_width, img_height, img_depth = norm_img.shape
               for k in range(img_depth):
@@ -95,7 +94,8 @@ def read_nifti_file(filepath):
   
 def normalize(volume, thres_norm=(-1000, 600)):
     """Normalize the volume"""
-    min, max = thres_norm
+    # min, max = thres_norm
+    min, max = np.min(volume), np.max(volume)
     volume[volume < min] = min
     volume[volume > max] = max
     volume = (volume - min) / (max - min)
