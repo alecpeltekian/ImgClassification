@@ -92,13 +92,10 @@ def read_nifti_file(filepath):
     return scan
   
   
-def normalize(volume, thres_norm=(-1000, 600)):
+def normalize(volume, bound=(-374, 426)):
     """Normalize the volume"""
-    # min, max = thres_norm
-    min, max = np.min(volume), np.max(volume)
-    volume[volume < min] = min
-    volume[volume > max] = max
-    volume = (volume - min) / (max - min)
+    volume = np.clip(volume, bound[0], bound[1]) + abs(bound[0])
+    volume = 255*(volume / (abs(bound[0]) + bound[1]))
     volume = volume.astype("float32")
     return volume
 
