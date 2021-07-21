@@ -41,7 +41,7 @@ data = dict(
         data_prefix= data_root + 'RenalDonors/',
         pipeline=test_pipeline))
 
-evaluation = dict(interval=1, metric='accuracy')
+evaluation = dict(interval=1, metric='accuracy', metric_options=dict(topk=(1,)))
 
 # Set up working dir to save files and logs.
 work_dir = '/home/alec/Desktop/ImgClassification/working_dir'
@@ -67,6 +67,7 @@ model = dict(
         num_classes=2,
         in_channels=512,
         loss=dict(type='CrossEntropyLoss', loss_weight=1.0),
+        topk=(1,),
     ))
 
 
