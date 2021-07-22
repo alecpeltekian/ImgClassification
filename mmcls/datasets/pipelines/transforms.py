@@ -463,6 +463,11 @@ class RandomFlip(object):
         if results['flip']:
             # flip image
             for key in results.get('img_fields', ['img']):
+              if len(results[key].shape) == 4:
+                for idx in range(results[key].shape[0]):
+                  results[key][idx] = mmcv.imflip(
+                    results[key][idx], direction=results['flip_direction'])
+              else:
                 results[key] = mmcv.imflip(
                     results[key], direction=results['flip_direction'])
         return results
@@ -816,7 +821,12 @@ class Normalize(object):
 
     def __call__(self, results):
         for key in results.get('img_fields', ['img']):
-            results[key] = mmcv.imnormalize(results[key], self.mean, self.std,
+            if len(results[key].shape) == 4:
+              for idx in range(results[key].shape[0]):
+                results[key][idx] = mmcv.imnormalize(results[key][idx], self.mean, self.std,
+                                            self.to_rgb)
+            else:
+              results[key] = mmcv.imnormalize(results[key], self.mean, self.std,
                                             self.to_rgb)
         results['img_norm_cfg'] = dict(
             mean=self.mean, std=self.std, to_rgb=self.to_rgb)
