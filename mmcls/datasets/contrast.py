@@ -7,8 +7,6 @@ import cv2
 import copy
 import os
 import os.path as osp
-import nibabel as nib
-from scipy import ndimage
 
 from .base_dataset import BaseDataset
 from .builder import DATASETS
@@ -59,22 +57,17 @@ class ContrastDataset(BaseDataset):
 
             # create Custom Middle dataset format
             for idx, img in enumerate([pc_img, syn_img]):
-              data_info = {}
-              
               # get image file path
               if self.data_prefix.endswith('/'):
                 ffp_image = self.data_prefix + img
               else:
                 ffp_image = self.data_prefix + '/' + img
 
-              norm_img = process_scan(ffp_image)
-              img_width, img_height, img_depth = norm_img.shape
-              for k in range(img_depth):
-                img_info = {}
-                img_info['gt_label'] = np.array(idx, dtype=np.int64)
-                slice_img = norm_img[:, :, k]
-                img_info['img'] = np.repeat(np.expand_dims(slice_img, axis=-1), 3, axis=-1)
-                data_infos.append(img_info)
+              img_info = {}
+              img_info['gt_label'] = np.array(idx, dtype=np.int64)
+              img_info['filename'] = ffp_image
+              img_info['img_prefix'] = None
+              data_infos.append(img_info)
 
         return data_infos 
 
@@ -82,58 +75,3 @@ class ContrastDataset(BaseDataset):
     def get_ann_info(self, idx):
         return self.data_infos[idx]['ann']
       
-      
-def read_nifti_file(filepath):
-    """Read and load volume"""
-    # Read file
-    scan = nib.load(filepath)
-    # Get raw data
-    scan = scan.get_fdata()
-    return scan
-  
-  
-def normalize(volume, bound=(-374, 426)):
-    """Normalize the volume"""
-    volume = np.clip(volume, bound[0], bound[1]) + abs(bound[0])
-    volume = 255*(volume / (abs(bound[0]) + bound[1]))
-    volume = volume.astype("float32")
-    return volume
-
-
-def resize_volume(img, desired_shape=(224, 224, 64), keep_depth=True):
-    """Resize across z-axis"""
-    # Set the desired depth
-    desired_width, desired_height, desired_depth = desired_shape
-
-    # Get current depth
-    current_depth = img.shape[-1]
-    current_width = img.shape[0]
-    current_height = img.shape[1]
-    
-    # Compute depth factor
-    depth = current_depth / desired_depth
-    width = current_width / desired_width
-    height = current_height / desired_height
-    depth_factor = 1 / depth
-    width_factor = 1 / width
-    height_factor = 1 / height
-    
-    # Rotate
-    img = ndimage.rotate(img, 90, reshape=False)
-    # Resize across z-axis
-    if keep_depth:
-      img = ndimage.zoom(img, (width_factor, height_factor, 1), order=1)
-    else:
-      img = ndimage.zoom(img, (width_factor, height_factor, depth_factor), order=1)
-    return img
-
-
-def process_scan(path):
-    """Read and resize volume"""
-    # Read scan
-    volume = read_nifti_file(path)
-    # Normalize
-    volume = normalize(volume)
-    # Resize width, height and depth
-    volume = resize_volume(volume)
-    return volume
