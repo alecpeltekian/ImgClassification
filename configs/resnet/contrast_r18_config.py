@@ -95,7 +95,7 @@ lr_config = dict(
     # warmup_iters=500,
     # warmup_ratio=0.001,
     step=[5, 10])
-runner = dict(type='EpochBasedRunner', max_epochs=50)
+runner = dict(type='EpochBasedRunner', max_epochs=10)
 
 
 ### ===============================================================
@@ -142,5 +142,5 @@ ckp_root = work_dir #'/home/tsm/Code/mmdetection/demo/tutorial_exps/'
 
 # models to use for prediction (temporal)
 ckp_list = [
-                'epoch_50.pth'
+                'epoch_10.pth'
             ]
