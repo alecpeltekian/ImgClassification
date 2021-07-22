@@ -4,7 +4,7 @@
 
 # dataset settings
 dataset_type = 'ContrastDataset'
-data_root = '/content/ImgClassification/data/' 
+data_root = '/mnt/cadlabnas/datasets/' 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -37,7 +37,7 @@ data = dict(
     ),
     val=dict(
         type=dataset_type,
-        ann_file='test.txt',
+        ann_file='val.txt',
         data_prefix= data_root + 'RenalDonors/',
         pipeline=test_pipeline),
     test=dict(
@@ -49,7 +49,7 @@ data = dict(
 evaluation = dict(interval=1, metric='accuracy', metric_options=dict(topk=(1,)))
 
 # Set up working dir to save files and logs.
-work_dir = '/content/ImgClassification/working_dir'
+work_dir = '/home/alec/Desktop/ImgClassification/working_dir'
 
 
 ### ===============================================================
