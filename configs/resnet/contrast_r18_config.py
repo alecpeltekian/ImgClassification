@@ -4,10 +4,11 @@
 
 # dataset settings
 dataset_type = 'ContrastDataset'
-data_root = '/mnt/cadlabnas/datasets/' 
+data_root = '/content/ImgClassification/data/' 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
+    dict(type='LoadImageFromNiiFile'),
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
@@ -15,13 +16,14 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_label']),
 ]
 test_pipeline = [
+    dict(type='LoadImageFromNiiFile'),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='Collect', keys=['img']),
 ]
 
 data = dict(
-    samples_per_gpu=2,        # BATCH_SIZE
+    samples_per_gpu=1,        # BATCH_SIZE
     workers_per_gpu=2,
     train=dict(
         type='RepeatDataset',
@@ -35,7 +37,7 @@ data = dict(
     ),
     val=dict(
         type=dataset_type,
-        ann_file='val.txt',
+        ann_file='test.txt',
         data_prefix= data_root + 'RenalDonors/',
         pipeline=test_pipeline),
     test=dict(
@@ -47,7 +49,7 @@ data = dict(
 evaluation = dict(interval=1, metric='accuracy', metric_options=dict(topk=(1,)))
 
 # Set up working dir to save files and logs.
-work_dir = '/home/alec/Desktop/ImgClassification/working_dir'
+work_dir = '/content/ImgClassification/working_dir'
 
 
 ### ===============================================================
