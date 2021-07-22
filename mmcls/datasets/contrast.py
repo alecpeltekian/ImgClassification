@@ -22,7 +22,7 @@ class ContrastDataset(BaseDataset):
     CLASSES = ('PC', 'SYNTHCON')
 
     # get path to the csv file
-    ffn_csvSavePath = '/content/ImgClassification/data/renalData.csv'
+    ffn_csvSavePath = '/home/alec/renalData.csv'
 
     # read the csv file  
     df = pd.read_csv(ffn_csvSavePath)
@@ -54,8 +54,8 @@ class ContrastDataset(BaseDataset):
         data_infos = []
 
         for row in df_split.iterrows():
-            pc_img = row[1][self.CLASSES[0]]
-            syn_img = row[1][self.CLASSES[1]]
+            pc_img = 'PC/' + row[1][self.CLASSES[0]]
+            syn_img = 'SYNTHCON/' + row[1][self.CLASSES[1]]
 
             # create Custom Middle dataset format
             for idx, img in enumerate([pc_img, syn_img]):
