@@ -141,7 +141,11 @@ class ImageClassifier(BaseClassifier):
                     is DDP, it means the batch size on each GPU), which is \
                     used for averaging the logs.
         """
+        MAX_BATCHSIZE = 64
         data['img'] = data['img'].squeeze(0)
+        curr_bz = data['img'].shape[0]
+        if curr_bz > MAX_BATCHSIZE:
+            data['img'] = data['img'][:MAX_BATCHSIZE]
         data['gt_label'] = data['gt_label'].squeeze(0)
 
         losses = self(**data)
