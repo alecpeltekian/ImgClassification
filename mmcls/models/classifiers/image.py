@@ -144,9 +144,11 @@ class ImageClassifier(BaseClassifier):
         MAX_BATCHSIZE = 64
         data['img'] = data['img'].squeeze(0)
         curr_bz = data['img'].shape[0]
+        data['gt_label'] = data['gt_label'].squeeze(0)
         if curr_bz > MAX_BATCHSIZE:
             data['img'] = data['img'][:MAX_BATCHSIZE]
-        data['gt_label'] = data['gt_label'].squeeze(0)
+            data['gt_label'] = data['gt_label'][:MAX_BATCHSIZE]
+        
 
         losses = self(**data)
         loss, log_vars = self._parse_losses(losses)
