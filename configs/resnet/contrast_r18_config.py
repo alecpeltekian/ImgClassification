@@ -114,7 +114,7 @@ log_config = dict(
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
-resume_from = None
+resume_from = '/home/alec/Desktop/ImgClassification/working_dir/epoch_17.pth'
 
 
 # run train iter 1 time (overall 1 time which includes: div num_images by batch_size, and mult by dataset_repeat_times)
