@@ -10,6 +10,8 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type='LoadImageFromNiiFile'),
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+    dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+    dict(type='RandomShift', shift_ratio=0.5, max_shift_px=32),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
