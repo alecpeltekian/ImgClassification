@@ -14,10 +14,7 @@ train_pipeline = [
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
     dict(type='Collect', keys=['img', 'gt_label']),
-    dict(type='RandomResizedCrop',
-         size,
-         scale=(0.08, 1.0),
-         ratio=(3. / 4., 4. / 3.)
+    #
     #dict(
         #type='Rotate',
         #level=1,
