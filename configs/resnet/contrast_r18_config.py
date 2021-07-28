@@ -21,7 +21,7 @@ train_pipeline = [
         #img_fill_val=0,
         #random_negative_prob=0.5,
         #prob=0.5
-        ),
+        #),
     dict(
         type='RandomCrop',
         crop_type='absolute_range',
