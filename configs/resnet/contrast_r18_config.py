@@ -10,11 +10,24 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type='LoadImageFromNiiFile'),
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
-    dict(type='RandomShift', shift_ratio=0.5, max_shift_px=32),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
     dict(type='Collect', keys=['img', 'gt_label']),
+    dict(
+        type='Rotate',
+        level=1,
+        max_rotate_angle=7,
+        img_fill_val=0,
+        random_negative_prob=0.5,
+        prob=0.5
+        ),
+    dict(
+        type='RandomCrop',
+        crop_type='absolute_range',
+        crop_size=(512,512),
+        allow_negative_crop=False
+    ),
 ]
 test_pipeline = [
     dict(type='LoadImageFromNiiFile'),
