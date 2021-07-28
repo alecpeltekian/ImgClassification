@@ -22,12 +22,12 @@ train_pipeline = [
         #random_negative_prob=0.5,
         #prob=0.5
         #),
-    dict(
-        type='RandomCrop',
+    #dict(
+        #type='RandomCrop',
         #crop_type='absolute_range',
-        size=(512,512)
+        #size=(512,512)
         #allow_negative_crop=False
-    ),
+    #),
 ]
 test_pipeline = [
     dict(type='LoadImageFromNiiFile'),
@@ -97,7 +97,7 @@ model = dict(
 # The original learning rate (LR) is set for 8-GPU training.
 # We divide it by 4 since we only use one GPU.
 # optimizer
-optimizer_lr = 0.001 #0.01 / 4
+optimizer_lr = 0.00001 #0.01 / 4
 
 # optimizer
 optimizer = dict(type='SGD', lr=optimizer_lr, momentum=0.9, weight_decay=0.0001, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
