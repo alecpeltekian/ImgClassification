@@ -17,13 +17,7 @@ train_pipeline = [
     dict(type='RandomResizedCrop',
          size,
          scale=(0.08, 1.0),
-         ratio=(3. / 4., 4. / 3.),
-         max_attempts=10,
-         efficientnet_style=False,
-         min_covered=0.1,
-         crop_padding=32,
-         interpolation='bilinear',
-         backend='cv2'),
+         ratio=(3. / 4., 4. / 3.)
     #dict(
         #type='Rotate',
         #level=1,
