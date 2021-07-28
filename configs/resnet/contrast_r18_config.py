@@ -14,13 +14,13 @@ train_pipeline = [
     dict(type='ImageToTensor', keys=['img']),
     dict(type='ToTensor', keys=['gt_label']),
     dict(type='Collect', keys=['img', 'gt_label']),
-    dict(
-        type='Rotate',
-        level=1,
-        max_rotate_angle=7,
-        img_fill_val=0,
-        random_negative_prob=0.5,
-        prob=0.5
+    #dict(
+        #type='Rotate',
+        #level=1,
+        #max_rotate_angle=7,
+        #img_fill_val=0,
+        #random_negative_prob=0.5,
+        #prob=0.5
         ),
     dict(
         type='RandomCrop',
