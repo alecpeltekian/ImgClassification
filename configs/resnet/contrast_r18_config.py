@@ -25,7 +25,7 @@ train_pipeline = [
     dict(
         type='RandomCrop',
         #crop_type='absolute_range',
-        crop_size=(512,512),
+        size=(512,512)
         #allow_negative_crop=False
     ),
 ]
