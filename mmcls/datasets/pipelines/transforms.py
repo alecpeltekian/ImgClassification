@@ -1,3 +1,5 @@
+import torch.nn.functional
+
 import inspect
 import math
 import random
