@@ -1075,33 +1075,3 @@ class Albu(object):
         repr_str = self.__class__.__name__ + f'(transforms={self.transforms})'
         return repr_str
 
-    
-   
-@PIPELINES.register_module()
-class ResizeMedical(object):
-
-    def __init__(self, size):
-        self.size = size
-
-    def __call__(self, results):
-        if isinstance(results['img'], list):
-            for i in range(len(results['img'])):
-                resized = torch.nn.functional.interpolate(
-                    torch.as_tensor(np.ascontiguousarray(results['img'][i]), dtype=torch.float).unsqueeze(0).unsqueeze(0),
-                    size=self.size,
-                    mode='area'
-                )
-                results['img'][i] = resized.squeeze(0).squeeze(0).detach().cpu().numpy()
-        else:
-            resized = torch.nn.functional.interpolate(
-                torch.as_tensor(np.ascontiguousarray(results['img']), dtype=torch.float).unsqueeze(0).unsqueeze(0),
-                size=self.size,
-                mode='area'
-            )
-            results['img'] = resized.squeeze(0).squeeze(0).detach().cpu().numpy()
-        return results
-
-
-
-    def __repr__(self):
-        return self.__class__.__name__ + f'(size={self.size})'
