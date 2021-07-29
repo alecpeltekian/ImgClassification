@@ -16,7 +16,7 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_label']),
     dict(
         type='RandomCrop',
-        size=(512,512)
+        size=(220,220)
         #allow_negative_crop=False
     )
 ]
