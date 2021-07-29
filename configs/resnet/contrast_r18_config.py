@@ -16,16 +16,8 @@ train_pipeline = [
     dict(type='ToTensor', keys=['gt_label']),
     dict(type='Collect', keys=['img', 'gt_label']),
     dict(
-        type='Rotate',
-        level=1,
-        max_rotate_angle=7,
-        img_fill_val=0,
-        random_negative_prob=0.5,
-        prob=0.5
-        ),
-    dict(
         type='RandomCrop',
-        crop_type='absolute_range',
+        padding=None',
         size=(512,512)
         #allow_negative_crop=False
     )
