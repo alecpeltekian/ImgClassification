@@ -12,24 +12,23 @@ train_pipeline = [
     dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='ImageToTensor', keys=['img']),
-    #dict(type='ResizeMedical', size=(64, 160, 160, 3)),
+    dict(type='Resize', img_scale=(1333, 800), keep_ratio=True)
     dict(type='ToTensor', keys=['gt_label']),
     dict(type='Collect', keys=['img', 'gt_label']),
-    #
-    #dict(
-        #type='Rotate',
-        #level=1,
-        #max_rotate_angle=7,
-        #img_fill_val=0,
-        #random_negative_prob=0.5,
-        #prob=0.5
-        #),
-    #dict(
-        #type='RandomCrop',
-        #crop_type='absolute_range',
-        #size=(512,512)
-        #allow_negative_crop=False
-    #),
+    dict(
+        type='Rotate',
+        level=1,
+        max_rotate_angle=7,
+        img_fill_val=0,
+        random_negative_prob=0.5,
+        prob=0.5
+        )
+    dict(
+        type='RandomCrop',
+        crop_type='absolute_range',
+        size=(512,512)
+        allow_negative_crop=False
+    )
 ]
 test_pipeline = [
     dict(type='LoadImageFromNiiFile'),
