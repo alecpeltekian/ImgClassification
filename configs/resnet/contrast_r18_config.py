@@ -27,7 +27,7 @@ train_pipeline = [
         type='RandomCrop',
         crop_type='absolute_range',
         size=(512,512)
-        allow_negative_crop=False
+        #allow_negative_crop=False
     )
 ]
 test_pipeline = [
