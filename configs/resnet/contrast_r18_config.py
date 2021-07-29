@@ -18,7 +18,7 @@ train_pipeline = [
         #type='RandomCrop',
         #size=(120,120)
         #allow_negative_crop=False
-    )
+    #)
 ]
 test_pipeline = [
     dict(type='LoadImageFromNiiFile'),
