@@ -65,7 +65,7 @@ def process_scan(path):
 
 
 cur_csv_file = 'data/renalData.csv'    # Shoud change this
-new_csv_file = 'data/renalData_new.csv'     # Shoud change this
+new_csv_file = 'data/renalData_new.csv'      # Shoud change this
 path_dir = 'data/RenalDonors'        # Should change this
 
 data = pd.read_csv(cur_csv_file)       
@@ -73,13 +73,14 @@ CLASSES = ['PC', 'SYNTHCON']
 os.makedirs(f'{path_dir}/{CLASSES[0]}/img', exist_ok=True)
 os.makedirs(f'{path_dir}/{CLASSES[1]}/img', exist_ok=True)
 
-with open(new_csv_file, 'w') as f:
-  writer = csv.DictWriter(f, fieldnames=['PC_img', 'PC_num', 'SYNTHCON_img', 'SYNTHCON_num'])
+with open(, 'w') as f:
+  writer = csv.DictWriter(f, fieldnames=['PC', 'PC_num', 'SYNTHCON', 'SYNTHCON_num', 'subset'])
   writer.writeheader()
   for row in data.iterrows():
     pc_img = row[1][CLASSES[0]]
     syn_img = row[1][CLASSES[1]]
     row_data = {}
+    row_data['subset'] = row[1]['subset']
     for folder, filename in zip(CLASSES, [pc_img, syn_img]):
       if filename.endswith('.nii.gz'):
         full_path_filename = f'{path_dir}/{folder}/{filename}'
