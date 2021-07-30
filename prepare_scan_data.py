@@ -64,9 +64,9 @@ def process_scan(path):
     return volume
 
 
-cur_csv_file = 'data/renalData.csv'    # Shoud change this
-new_csv_file = 'data/renalData_new.csv'      # Shoud change this
-path_dir = 'data/RenalDonors'        # Should change this
+cur_csv_file = '/home/alec/renalData.csv'
+new_csv_file = '/home/alec/renalData_new.csv'
+path_dir = '/mnt/cadlabnas/datasets/RenalDonors'
 
 data = pd.read_csv(cur_csv_file)       
 CLASSES = ['PC', 'SYNTHCON']
