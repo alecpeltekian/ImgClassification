@@ -87,7 +87,7 @@ with open(new_csv_file, 'w') as f:
         scan = process_scan(full_path_filename)
         n_images = scan.shape[0]
         row_data[folder + '_num'] = n_images
-        row_data[folder + '_img'] = filename
+        row_data[folder] = filename
         for i in range(n_images):
           cv2.imwrite(f'{path_dir}/{folder}/img/{filename[:filename.find(".")]}_{i}.png', scan[i])
 
