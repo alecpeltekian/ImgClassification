@@ -5,14 +5,6 @@ from ..builder import CLASSIFIERS, build_backbone, build_head, build_neck
 from ..utils.augment import Augments
 from .base import BaseClassifier
 
-# TODO import `auto_fp16` from mmcv and delete them from mmcls
-try:
-    from mmcv.runner import auto_fp16
-except ImportError:
-    warnings.warn('auto_fp16 from mmcls will be deprecated.'
-                  'Please install mmcv>=1.1.4.')
-    from mmcls.core import auto_fp16
-
 
 @CLASSIFIERS.register_module()
 class ImageClassifier(BaseClassifier):
@@ -88,93 +80,16 @@ class ImageClassifier(BaseClassifier):
         Returns:
             dict[str, Tensor]: a dictionary of loss components
         """
-        losses = dict()
         if self.augments is not None:
             img, gt_label = self.augments(img, gt_label)
 
         x = self.extract_feat(img)
+
+        losses = dict()
         loss = self.head.forward_train(x, gt_label)
         losses.update(loss)
 
         return losses
-
-    @auto_fp16(apply_to=('img', ))
-    def forward(self, img, return_loss=True, **kwargs):
-        """Calls either forward_train or forward_test depending on whether
-        return_loss=True.
-        Note this setting will change the expected inputs. When
-        `return_loss=True`, img and img_meta are single-nested (i.e. Tensor and
-        List[dict]), and when `resturn_loss=False`, img and img_meta should be
-        double nested (i.e.  List[Tensor], List[List[dict]]), with the outer
-        list indicating test time augmentations.
-        """
-        if len(img.shape) == 5:
-          img = img.squeeze(0)
-
-        if return_loss:
-            return self.forward_train(img, **kwargs)
-        else:
-            return self.forward_test(img, **kwargs)
-
-    def train_step(self, data, optimizer):
-        """The iteration step during training.
-
-        This method defines an iteration step during training, except for the
-        back propagation and optimizer updating, which are done in an optimizer
-        hook. Note that in some complicated cases or models, the whole process
-        including back propagation and optimizer updating are also defined in
-        this method, such as GAN.
-
-        Args:
-            data (dict): The output of dataloader.
-            optimizer (:obj:`torch.optim.Optimizer` | dict): The optimizer of
-                runner is passed to ``train_step()``. This argument is unused
-                and reserved.
-
-        Returns:
-            dict: Dict of outputs. The following fields are contained.
-                - loss (torch.Tensor): A tensor for back propagation, which \
-                    can be a weighted sum of multiple losses.
-                - log_vars (dict): Dict contains all the variables to be sent \
-                    to the logger.
-                - num_samples (int): Indicates the batch size (when the model \
-                    is DDP, it means the batch size on each GPU), which is \
-                    used for averaging the logs.
-        """
-        MAX_BATCHSIZE = 64
-        data['img'] = data['img'].squeeze(0)
-        curr_bz = data['img'].shape[0]
-        data['gt_label'] = data['gt_label'].squeeze(0)
-        if curr_bz > MAX_BATCHSIZE:
-            data['img'] = data['img'][:MAX_BATCHSIZE]
-            data['gt_label'] = data['gt_label'][:MAX_BATCHSIZE]
-        
-
-        losses = self(**data)
-        loss, log_vars = self._parse_losses(losses)
-
-        outputs = dict(
-            loss=loss, log_vars=log_vars, num_samples=len(data['img'].data))
-
-        return outputs
-
-    def val_step(self, data, optimizer):
-        """The iteration step during validation.
-
-        This method shares the same signature as :func:`train_step`, but used
-        during val epochs. Note that the evaluation after training epochs is
-        not implemented with this method, but an evaluation hook.
-        """
-        data['img'] = data['img'].squeeze(0)
-        data['gt_label'] = data['gt_label'].squeeze(0)
-        
-        losses = self(**data)
-        loss, log_vars = self._parse_losses(losses)
-
-        outputs = dict(
-            loss=loss, log_vars=log_vars, num_samples=len(data['img'].data))
-
-        return outputs
 
     def simple_test(self, img, img_metas):
         """Test without augmentation."""
