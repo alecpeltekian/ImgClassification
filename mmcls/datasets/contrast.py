@@ -60,7 +60,7 @@ class ContrastDataset(BaseDataset):
             for idx, (img, n_img) in enumerate(zip([pc_img, syn_img], [pc_num, syn_num])):
               for k in range(n_img):
                 # get image file path
-                png_img = img[: img.find('.nii')] + '.png'
+                png_img = img[: img.find('.nii')] + f'_{k}.png'
                 if self.data_prefix.endswith('/'):
                   ffp_image = self.data_prefix + png_img
                 else:
@@ -68,7 +68,7 @@ class ContrastDataset(BaseDataset):
 
                 img_info = {}
                 img_info['gt_label'] = np.array(idx, dtype=np.int64)
-                img_info['filename'] = ffp_image
+                img_info['img_info'] = {'filename': ffp_image}
                 img_info['img_prefix'] = None
                 data_infos.append(img_info)
 
