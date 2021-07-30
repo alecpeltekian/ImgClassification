@@ -73,7 +73,7 @@ CLASSES = ['PC', 'SYNTHCON']
 os.makedirs(f'{path_dir}/{CLASSES[0]}/img', exist_ok=True)
 os.makedirs(f'{path_dir}/{CLASSES[1]}/img', exist_ok=True)
 
-with open(, 'w') as f:
+with open(new_csv_file, 'w') as f:
   writer = csv.DictWriter(f, fieldnames=['PC', 'PC_num', 'SYNTHCON', 'SYNTHCON_num', 'subset'])
   writer.writeheader()
   for row in data.iterrows():
