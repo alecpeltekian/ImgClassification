@@ -9,8 +9,6 @@ from mmcv.runner import load_checkpoint
 
 from mmcls.datasets.pipelines import Compose
 from mmcls.models import build_classifier
-from ..datasets.contrast import process_scan
-
 
 def init_model(config, checkpoint=None, device='cuda:0', options=None):
     """Initialize a classifier from config file.
