@@ -22,7 +22,7 @@ class ContrastDataset(BaseDataset):
     CLASSES = ('PC', 'SYNTHCON')
 
     # get path to the csv file
-    ffn_csvSavePath = 'data/renalData_new.csv'
+    ffn_csvSavePath = '/home/alec/renalData_new.csv'
 
     # read the csv file  
     df = pd.read_csv(ffn_csvSavePath)
